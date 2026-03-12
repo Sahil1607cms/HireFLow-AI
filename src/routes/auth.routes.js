@@ -22,5 +22,5 @@ authRouter.post("/login",authController.loginUserController)
  * @description Logout loggedin user and clear the cookie and add it in the blacklist
  * @access Public
  */
-authRouter.post("/logout",authController.logoutUserController)
+authRouter.get("/logout",authController.logoutUserController)
 export default authRouter

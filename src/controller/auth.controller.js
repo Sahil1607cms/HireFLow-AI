@@ -34,7 +34,7 @@ async function registerUserController(req,res) {
     }
 
     const hash = await bcrypt.hash(password,10)
-
+    console.log(`hashed password - ${hash}`)
     const user = await userModel.create({
         username,email,password:hash
     })
@@ -81,6 +81,8 @@ const {email, password} = req.body
             message : "Email does not exist, please register first"
         })
     }
+    console.log(password)
+    console.log(isUserExisiting.password)
 
     const compare = await bcrypt.compare(password,isUserExisiting.password)
     if(!compare) 
@@ -90,19 +92,19 @@ const {email, password} = req.body
         })
     }
     const token = jwt.sign(
-    {id: user._id, username: user.username},
+    {id: isUserExisiting._id, username: isUserExisiting.username},
     process.env.JWT_SECRET,
     {expiresIn:"1d"}
     )
 
     res.cookie("token", token)
 
-    res.status(201).json({
+    res.status(200).json({
         message:"User loggedIn successfully",
         user : {
-            id: user._id,
-            username: user.username,
-            email: user.email
+            id: isUserExisiting._id,
+            username: isUserExisiting.username,
+            email: isUserExisiting.email
          }
     })
 }
@@ -114,7 +116,7 @@ const {email, password} = req.body
  */
 async function logoutUserController(req,res){
     const token = req.cookies.token
-
+    console.log(`Token is - ${token.cookie}`)
     if(token)
     {
         await blacklistModel.create({token})

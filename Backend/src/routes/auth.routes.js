@@ -1,6 +1,6 @@
 import express from "express"
 import authController from "../controller/auth.controller.js"
-
+import authUser from "../middlewares/auth.middleware.js"
 const authRouter = express.Router()
 
 /**
@@ -23,4 +23,12 @@ authRouter.post("/login",authController.loginUserController)
  * @access Public
  */
 authRouter.get("/logout",authController.logoutUserController)
+
+/**
+ * @route GERT  /api/auth/get-me
+ * @description Get the details of the user from the database after checking the token
+ * @access Public
+ */
+authRouter.get("/get-me",authUser ,authController.getMeUser)
+
 export default authRouter

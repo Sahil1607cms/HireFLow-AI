@@ -8,6 +8,7 @@ import blacklistModel from "../models/blacklist.model.js";
  * @access Public
  */
 async function registerUserController(req, res) {
+  console.log("REGISTER CONTROLLER HIT");
   const { username, email, password } = req.body;
   if (!username || !email || !password) {
     return res.status(400).json({
@@ -112,7 +113,7 @@ async function loginUserController(req, res) {
  */
 async function logoutUserController(req, res) {
   const token = req.cookies.token;
-  console.log(`Token is - ${token.cookie}`);
+  console.log(`Token is - ${token}`);
   if (token) {
     await blacklistModel.create({ token });
   }
@@ -145,9 +146,17 @@ async function getMeUser(req, res) {
     },
   });
 }
+
+async function printok(req, res) {
+   console.log("OK PRINTED")
+    res.status(302).json({
+      message: "OK PRINTED",
+    });
+}
 export default {
   registerUserController,
   loginUserController,
   logoutUserController,
-  getMeUser
+  getMeUser,
+  printok
 };

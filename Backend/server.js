@@ -3,7 +3,7 @@ import connectDb from "./src/config/database.js"
 import app from "./src/app.js"
 dotenv.config();
 
-connectDb()
+await connectDb()
 
 
 app.listen(3000,()=>{

@@ -1,27 +1,19 @@
 import { useState } from "react";
+import { useAuth } from "../hooks/useAuth.js"; 
+import {useNavigate} from "react-router-dom"
 
 export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [remember, setRemember] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const { loading, error, handleRegister } = useAuth();
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-
-    if (!email || !password) {
-      setError("Please fill in all fields.");
-      return;
-    }
-
-    setLoading(true);
-    await new Promise((r) => setTimeout(r, 1200)); // replace with real auth call
-    setLoading(false);
-    setError("Invalid email or password. Please try again.");
+    await handleRegister({ username, email, password });
+    navigate("/login")
   };
 
   return (

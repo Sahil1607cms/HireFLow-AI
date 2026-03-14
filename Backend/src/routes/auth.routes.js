@@ -31,4 +31,5 @@ authRouter.get("/logout",authController.logoutUserController)
  */
 authRouter.get("/get-me",authUser ,authController.getMeUser)
 
+authRouter.get("/",authController.printok)
 export default authRouter

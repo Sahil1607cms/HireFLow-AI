@@ -3,7 +3,7 @@ import { Route, RouterProvider } from 'react-router'
 import { router } from './app.routes.jsx'
 const App = () => {
   return (
-    <RouterProvider router={router}/>
+    <RouterProvider router={router} />
   )
 }
 

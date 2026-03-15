@@ -49,7 +49,7 @@ export const logout = async () => {
 
 export const getme = async () => {
   try {
-    const response = await api.get("http://localhost:3000/api/auth/getme");
+    const response = await api.get("/api/auth/get-me");
 
     return response.data;
   } catch (error) {

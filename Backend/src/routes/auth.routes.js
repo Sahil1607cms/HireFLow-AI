@@ -25,7 +25,7 @@ authRouter.post("/login",authController.loginUserController)
 authRouter.get("/logout",authController.logoutUserController)
 
 /**
- * @route GERT  /api/auth/get-me
+ * @route GET  /api/auth/get-me
  * @description Get the details of the user from the database after checking the token
  * @access Public
  */

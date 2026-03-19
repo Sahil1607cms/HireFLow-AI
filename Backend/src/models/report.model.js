@@ -15,7 +15,7 @@ const technicalQuestionsSchema = new mongoose.Schema(
       type: String,
       required: [true, "Technical intention is required"],
     },
-    intention: {
+    answer: {
       type: String,
       required: [true, "Answer is required"],
     },
@@ -86,7 +86,7 @@ const reportSchema = new mongoose.Schema({
   matchScore: {
     type: Number,
     min: 0,
-    max: 0,
+    max: 100,
   },
   technicalQuestions :[technicalQuestionsSchema],
   behavioralQuestions :[behaviourialQuestionsSchema],

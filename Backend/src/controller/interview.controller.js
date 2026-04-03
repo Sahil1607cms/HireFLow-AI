@@ -8,6 +8,8 @@ async function generateInterViewReportController(req, res) {
     await parser.destroy()
     const resumeContent = result.text
     const { selfDescription, jobDescription } = req.body
+
+    //calling function from ai.services.js
     const interViewReportByAi = await generateInterviewReport({
         resume: resumeContent,
         selfDescription,
@@ -15,7 +17,7 @@ async function generateInterViewReportController(req, res) {
     })
 
     const interviewReport = await reportModel.create({
-        user: req.user.id,
+        users: req.user.id, //type - mongoose.Schema.Types.ObjectId in the schema
         resume: resumeContent,
         selfDescription,
         jobDescription,

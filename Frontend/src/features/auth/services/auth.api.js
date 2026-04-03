@@ -47,13 +47,17 @@
     }
   };
 
-  export const getme = async () => {
-    try {
-      const response = await api.get("/api/auth/get-me");
-
-      return response.data;
-    } catch (error) {
-      console.log(error);
+export const getme = async () => {
+  try {
+    const response = await api.get("/api/auth/get-me");
+    return response.data;
+  } catch (error) {
+    if (error.response?.status === 401) {
+      return null; 
     }
-  };
+    throw new Error(
+      error.response?.data?.message || "Failed to fetch user"
+    );
+  }
+};
   export default { register, login, logout, getme };

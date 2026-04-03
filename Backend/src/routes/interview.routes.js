@@ -1,5 +1,4 @@
 import express from "express"
-import authController from "../controller/auth.controller.js"
 import authUser from "../middlewares/auth.middleware.js" 
 import {
   generateInterViewReportController,
@@ -10,6 +9,11 @@ import upload from "../middlewares/file.middleware.js"
 
 const interviewRouter = express.Router()
 
+/**
+ * @route POST /api/interview/
+ * @description generate interview report.
+ * @access private
+ */
 interviewRouter.post("/",authUser,upload.single("resume") ,generateInterViewReportController )
 
 /**

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../hooks/useAuth.js"; 
 import {useNavigate} from "react-router-dom"
+import { toast,Bounce } from "react-toastify";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -13,6 +14,17 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await handleRegister({ username, email, password });
+    toast.success("Registered successfully", {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
     navigate("/login")
   };
 

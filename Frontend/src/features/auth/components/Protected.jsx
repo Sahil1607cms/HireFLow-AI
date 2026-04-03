@@ -8,7 +8,7 @@ const Protected = ({children}) => {
         // Show a loading spinner or placeholder while checking auth
         return <div>Loading...</div>;  // Replace with your preferred loading UI
     }
-    if(!user) {
+    if(!user || user===null) {
         return <Navigate to={"/login"} replace/>
     }
     return children

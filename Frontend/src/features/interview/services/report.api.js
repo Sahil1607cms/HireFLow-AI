@@ -1,45 +1,74 @@
 import axios from "axios";
 
+//centralizing api calls for report related purpose
 const api = axios.create({
-    baseURL:"http://localhost:3000",
-    withCredentials:true
-})
+  baseURL: "http://localhost:3000",
+  withCredentials: true,
+});
 
-export const generateInterviewReport = async ({ jobDescription, selfDescription, resumeFile }) => {
-
-    const formData = new FormData()
-    formData.append("jobDescription", jobDescription)
-    formData.append("selfDescription", selfDescription)
-    formData.append("resume", resumeFile)
-    console.log("Job Description",jobDescription)
-    console.log("Self Description",selfDescription)
-    console.log("Resume Description",resumeFile)
+export const generateInterviewReport = async ({
+  jobDescription,
+  selfDescription,
+  resumeFile,
+}) => {
+  try {
+    const formData = new FormData();
+    formData.append("jobDescription", jobDescription);
+    formData.append("selfDescription", selfDescription);
+    formData.append("resume", resumeFile);
     const response = await api.post("/api/interview/", formData, {
-        headers: {
-            "Content-Type": "multipart/form-data"
-        }
-    })
-
-    return response.data
-
-}
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    //axios automatically throws error to the catch block
+    console.error(
+      "Generate Report API Error:",
+      error.response?.data || error.message,
+    );
+    throw new Error(error.response?.data?.message || error.message); //rethrow error because api layer shouldnt decide what to do with the error
+  }
+};
 
 export const getInterviewReportById = async (interviewId) => {
-    const response = await api.get(`/api/interview/report/${interviewId}`)
-
-    return response.data
-}
+  try {
+    const response = await api.get(`/api/interview/report/${interviewId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Get Report Error:", error.response?.data || error.message);
+    throw new Error(error.response?.data?.message || error.message);
+  }
+};
 
 export const getAllInterviewReports = async () => {
-    const response = await api.get("/api/interview/")
-
-    return response.data
-}
+  try {
+    const response = await api.get("/api/interview/");
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Get All Reports Error:",
+      error.response?.data || error.message,
+    );
+    throw new Error(error.response?.data?.message || error.message);
+  }
+};
 
 export const generateResumePdf = async ({ interviewReportId }) => {
-    const response = await api.post(`/api/interview/resume/pdf/${interviewReportId}`, null, {
-        responseType: "blob"
-    })
+  try {
+    const response = await api.post(
+      `/api/interview/resume/pdf/${interviewReportId}`,
+      null,
+      { responseType: "blob" },
+    );
 
-    return response.data
-}
+    return response.data;
+  } catch (error) {
+    console.error(
+      "PDF Generation Error:",
+      error.response?.data || error.message,
+    );
+    throw new Error(error.response?.data?.message || error.message);
+  }
+};

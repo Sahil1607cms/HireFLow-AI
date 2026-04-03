@@ -11,7 +11,7 @@ app.use(cors({
   methods: ["GET","POST","PUT","DELETE"],
   credentials: true
 }));
-app.use(express.json())
+app.use(express.json()) //parses json body, allows req.body, else undefined
 app.use(cookieParser()) 
 app.use("/api/auth",authRouter)
 app.use("/api/interview",interviewRouter)

@@ -9,7 +9,7 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const { loading, error, handleRegister } = useAuth();
   const navigate = useNavigate()
-
+  if (loading) return null;
   const handleSubmit = async (e) => {
     e.preventDefault();
     await handleRegister({ username, email, password });

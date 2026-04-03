@@ -16,75 +16,83 @@ async function generateInterviewReport({
 You are an expert interview preparation assistant.
 Analyze the candidate's resume, self description and job description.
 Generate a detailed interview report.
-
+Be very stict while giving match score, give the score without sugarcoating with brutal reality
 Candidate:
 Resume: ${resume}
 Self Description: ${selfDescription}
 Job Description: ${jobDescription}
 `;
 
-  const responseSchemaOfAi = {
+const responseSchemaOfAi = {
+  type: "object",
+  properties: {
+    matchScore: { type: "number" }, 
+    title: { type: "string" },
+
+    technicalQuestions: {
+      type: "array",
+      items: {
         type: "object",
         properties: {
-          matchScore: { type: "number" },
-          title: { type: "string" },
-          technicalQuestions: {
-            type: "array",
-            items: {
-              type: "object",
-              properties: {
-                question: { type: "string" },
-                intention: { type: "string" },
-                answer: { type: "string" },
-              },
-              required: ["question", "intention", "answer"],
-            },
-          },
-          behavioralQuestions: {
-            type: "array",
-            items: {
-              type: "object",
-              properties: {
-                question: { type: "string" },
-                intention: { type: "string" },
-                answer: { type: "string" },
-              },
-              required: ["question", "intention", "answer"],
-            },
-          },
-          skillGaps: {
-            type: "array",
-            items: {
-              type: "object",
-              properties: {
-                skill: { type: "string" },
-                severity: { type: "string", enum: ["low", "medium", "high"] },
-              },
-              required: ["skill", "severity"],
-            },
-          },
-          preparationPlan: {
-            type: "array",
-            items: {
-              type: "object",
-              properties: {
-                day: { type: "number" },
-                focus: { type: "string" },
-                tasks: { type: "array", items: { type: "string" } },
-              },
-              required: ["day", "focus", "tasks"],
-            },
+          question: { type: "string" },
+          intention: { type: "string" },
+          answer: { type: "string" },
+        },
+      },
+    },
+
+    behavioralQuestions: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          question: { type: "string" },
+          intention: { type: "string" },
+          answer: { type: "string" },
+        },
+      },
+    },
+
+    skillGaps: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          skill: { type: "string" },
+          severity: {
+            type: "string",
+            enum: ["low", "medium", "high"],
           },
         },
-        required: [
-          "matchScore",
-          "title",
-          "technicalQuestions",
-          "behavioralQuestions",
-          "skillGaps",
-          "preparationPlan",
-        ],
-      };
+      },
+    },
+
+    preparationPlan: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          day: { type: "number" },
+          focus: { type: "string" },
+          tasks: {
+            type: "array",
+            items: { type: "string" },
+          },
+        },
+      },
+    },
+  },
+
+  required: [
+    "matchScore",
+    "title",
+    "technicalQuestions",
+    "behavioralQuestions",
+    "skillGaps",
+    "preparationPlan",
+  ],
+};
+
 
   const response = await ai.models.generateContent({
     model: "gemini-2.5-flash",
@@ -92,11 +100,15 @@ Job Description: ${jobDescription}
     config: {
       responseMimeType: "application/json",
       temperature: 0.7,
-      responseSchema: responseSchemaOfAi ,
+      responseSchema: responseSchemaOfAi,
     },
   });
 
-  return JSON.parse(response.text);
+  try {
+    return JSON.parse(response.text);
+  } catch (err) {
+    throw new Error("Invalid AI response format");
+  }
 }
 
 export default generateInterviewReport;

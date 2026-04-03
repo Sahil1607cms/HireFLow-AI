@@ -1,12 +1,10 @@
-import { useState } from "react";
-import { createContext } from "react";
-import { useEffect } from "react";
+import { useState, createContext, useEffect } from "react";
 import { getme } from "./services/auth.api";
 
 // This is the state layer 
-const AuthContext = createContext()
+const AuthContext = createContext(null)
 
-export const AuthProvider = ({children}) => {
+ const AuthProvider = ({children}) => {
         const [user, setUser] = useState(null)
         const [loading, setloading] = useState(true)
         const [error, setError] = useState(null)
@@ -36,4 +34,6 @@ export const AuthProvider = ({children}) => {
             </AuthContext.Provider>
         )
     }
-export default AuthContext
+
+export { AuthProvider };
+export default AuthContext;

@@ -147,16 +147,9 @@ async function getMeUser(req, res) {
   });
 }
 
-async function printok(req, res) {
-   console.log("OK PRINTED")
-    res.status(302).json({
-      message: "OK PRINTED",
-    });
-}
 export default {
   registerUserController,
   loginUserController,
   logoutUserController,
-  getMeUser,
-  printok
+  getMeUser
 };
